@@ -3,9 +3,9 @@ name: Build Fast-DDS
 on:
   workflow_dispatch:
 
-env:
-  GITHUB_TOKEN: ${{ secrets.TOKEN }}
-  #CYCLONEDDS_HOME: /opt/cyclonedds
+#env:
+#  GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#  #CYCLONEDDS_HOME: /opt/cyclonedds
 
 jobs:
   FastDDS:
@@ -18,10 +18,10 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    #- name: Clone external project
-    #  run: |
-    #    git clone --depth 1 https://github.com/eclipse-cyclonedds/cyclonedds.git
-    #    cd cyclonedds
+      #- name: Clone external project
+      #  run: |
+      #    git clone --depth 1 https://github.com/eclipse-cyclonedds/cyclonedds.git
+      #    cd cyclonedds
 
     - name: Set-up dependancies
       run: |
@@ -61,7 +61,6 @@ jobs:
     #    git config user.email "actions@github.com"
     #    git commit -m 'Automatic deployment' || echo 'Nothing to commit'
     #    git push
-        
 
     #- name: Upload
     #  uses: actions/upload-artifact@v4
