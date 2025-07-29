@@ -20,11 +20,32 @@ jobs:
         p11-kit list-modules
         openssl engine pkcs11 -t
         
-    - name: Build
+    - name: Build Foonathan Memory
       run: |
         git clone https://github.com/eProsima/foonathan_memory_vendor.git
         mkdir foonathan_memory_vendor/build
         cd foonathan_memory_vendor/build
-        cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS/install -DBUILD_SHARED_LIBS=ON
+        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-DDS -DBUILD_SHARED_LIBS=ON
         cmake --build .
         cpack -G DEB
+        
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: fast-dds
+        path: foonathan_memory_vendor/build/*.deb
+        
+    - name: Build Fast-CDR
+      run: |
+        git clone https://github.com/eProsima/Fast-CDR.git
+        mkdir Fast-CDR/build
+        cd Fast-CDR/build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-DDS
+        cmake --build .
+        cpack -G DEB
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: fast-dds
+        path: Fast-CDR/build/*.deb
