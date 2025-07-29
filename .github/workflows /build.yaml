@@ -1,4 +1,4 @@
-name: Build Fast-DDS
+name: Build FastDDS
 
 on:
   workflow_dispatch:
