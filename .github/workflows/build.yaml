@@ -26,4 +26,5 @@ jobs:
         mkdir foonathan_memory_vendor/build
         cd foonathan_memory_vendor/build
         cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS/install -DBUILD_SHARED_LIBS=ON
-        cmake --build . --target install
+        cmake --build .
+        cpack -G DEB
