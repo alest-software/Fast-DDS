@@ -3,26 +3,17 @@ name: Build Fast-DDS
 on:
   workflow_dispatch:
 
-#env:
-#  GITHUB_TOKEN: ${{ secrets.TOKEN }}
-#  #CYCLONEDDS_HOME: /opt/cyclonedds
-
 jobs:
   FastDDS:
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
-        platform: [ubuntu-24.04] #, ubuntu-22.04-arm] #, ubuntu-24.04-arm]
+        platform: [ubuntu-24.04]
 
     runs-on: ${{ matrix.platform }}
 
     steps:
-      #- name: Clone external project
-      #  run: |
-      #    git clone --depth 1 https://github.com/eclipse-cyclonedds/cyclonedds.git
-      #    cd cyclonedds
-
     - name: Set-up dependancies
       run: |
         sudo apt update
@@ -34,36 +25,3 @@ jobs:
         sudo apt install -y libengine-pkcs11-openssl
         p11-kit list-modules
         openssl engine pkcs11 -t
-
-    #- name: Build from source
-    #  working-directory: ./cyclonedds
-    #  run: |
-    #    mkdir build
-    #    cd build
-    #    cmake -DCPACK_PACKAGING_INSTALL_PREFIX=/opt/cyclonedds ..
-    #    cmake --build .
-    #    cpack -G DEB
-
-    #- name: Deploy to repository
-    #  run: |
-    #    codename=$(lsb_release -c -s)
-    #    git clone --depth 1 https://x-access-token:${{ secrets.TOKEN }}@github.com/alest-software/ubuntu.git
-    #    for fn in cyclonedds/build/*.deb; do
-    #      arch=$(dpkg --info ${fn} | awk '/Architecture:/ {print $2}')
-    #      fname=$(basename ${fn})
-    #      dest="dists/$codename/main/binary-$arch"
-    #      mkdir -p "ubuntu/${dest}"
-    #      cp "${fn}" "ubuntu/${dest}/${fname}"
-    #      (cd ubuntu; git add "${dest}/${fname}")
-    #    done
-    #    cd ubuntu
-    #    git config user.name "GitHub Actions"
-    #    git config user.email "actions@github.com"
-    #    git commit -m 'Automatic deployment' || echo 'Nothing to commit'
-    #    git push
-
-    #- name: Upload
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: eclipse-cyclone-dds-${{ matrix.platform }}
-    #    path: cyclonedds/build/*.deb
