@@ -25,7 +25,7 @@ jobs:
         git clone https://github.com/eProsima/foonathan_memory_vendor.git
         cd foonathan_memory_vendor
         echo 'set(CPACK_PACKAGE_NAME "foonathan_memory_vendor")' >> CMakeLists.txt
-        echo 'set(CPACK_PACKAGE_CNTACT "you@example.com")' >> CMakeLists.txt
+        echo 'set(CPACK_PACKAGE_CONTACT "you@example.com")' >> CMakeLists.txt
         echo 'include(CPack)' >> CMakeLists.txt
         mkdir build
         cd build
