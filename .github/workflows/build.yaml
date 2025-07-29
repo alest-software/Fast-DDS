@@ -19,3 +19,11 @@ jobs:
         sudo apt install -y libengine-pkcs11-openssl
         p11-kit list-modules
         openssl engine pkcs11 -t
+        
+    - name: Build
+      run: |
+        git clone https://github.com/eProsima/foonathan_memory_vendor.git
+        mkdir foonathan_memory_vendor/build
+        cd foonathan_memory_vendor/build
+        cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS/install -DBUILD_SHARED_LIBS=ON
+        cmake --build . --target install
