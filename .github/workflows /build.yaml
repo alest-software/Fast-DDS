@@ -26,7 +26,14 @@ jobs:
     - name: Set-up dependancies
       run: |
         sudo apt update
-        sudo apt install -y build-essential cmake
+        sudo apt install -y cmake g++ python3-pip wget git
+        sudo apt install -y libasio-dev libtinyxml2-dev
+        sudo apt install -y libssl-dev
+        sudo apt install -y libp11-dev
+        sudo apt install -y softhsm2
+        sudo apt install -y libengine-pkcs11-openssl
+        p11-kit list-modules
+        openssl engine pkcs11 -t
 
     #- name: Build from source
     #  working-directory: ./cyclonedds
