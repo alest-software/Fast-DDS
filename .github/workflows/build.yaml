@@ -42,14 +42,18 @@ jobs:
     - name: Build Fast-CDR
       run: |
         git clone https://github.com/eProsima/Fast-CDR.git
-        mkdir Fast-CDR/build
-        cd Fast-CDR/build
-        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-DDS
+        cd Fast-CDR
+        echo 'set(CPACK_PACKAGE_NAME "foonathan_memory_vendor")' >> CMakeLists.txt
+        echo 'set(CPACK_PACKAGE_CONTACT "you@example.com")' >> CMakeLists.txt
+        echo 'include(CPack)' >> CMakeLists.txt
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-CDR
         cmake --build .
         cpack -G DEB
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: fast-dds
+        name: fast-cdr
         path: Fast-CDR/build/*.deb
