@@ -8,9 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
     - name: Set-up dependancies
       run: |
-        echo "deb [trusted=yes] https://alest-software.github.io/ubuntu noble main" | sudo tee /etc/apt/sources.list.d/alest-software.list
+        codename=$(lsb_release -c -s)
+        echo "deb [trusted=yes] https://alest-software.github.io/ubuntu ${codename} main" | sudo tee /etc/apt/sources.list.d/alest-software.list
         sudo apt update
         sudo apt install -y cmake g++ python3-pip wget git
         sudo apt install -y libasio-dev libtinyxml2-dev
@@ -22,3 +29,13 @@ jobs:
         sudo apt install -y fast-cdr
         #p11-kit list-modules
         #openssl engine pkcs11 -t
+
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        ARCH=$(dpkg --print-architecture)
+        cmake -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=${ARCH} -DCPACK_DEBIAN_PACKAGE_REVISION=${GITHUB_RUN_NUMBER} ..
+        cmake --build .
+        cpack
+
