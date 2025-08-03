@@ -29,6 +29,15 @@ jobs:
         sudo apt install -y libfastcdr
         #p11-kit list-modules
         #openssl engine pkcs11 -t
+        
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        ARCH=$(dpkg --print-architecture)
+        cmake -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=${ARCH} -DCPACK_DEBIAN_PACKAGE_REVISION=${GITHUB_RUN_NUMBER} ..
+        cmake --build .
+        cpack
 
     - name: Deploy
       run: |
@@ -47,12 +56,3 @@ jobs:
         git config user.email "actions@github.com"
         git commit -m 'Automatic deployment' || echo 'Nothing to commit'
         git push
-    - name: Build
-      run: |
-        mkdir build
-        cd build
-        ARCH=$(dpkg --print-architecture)
-        cmake -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=${ARCH} -DCPACK_DEBIAN_PACKAGE_REVISION=${GITHUB_RUN_NUMBER} ..
-        cmake --build .
-        cpack
-
