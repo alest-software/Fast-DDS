@@ -10,6 +10,7 @@ jobs:
     steps:
     - name: Set-up dependancies
       run: |
+        echo "deb [trusted=yes] https://alest-software.github.io/simple/ ./" | sudo tee /etc/apt/sources.list.d/alest-software.list
         sudo apt update
         sudo apt install -y cmake g++ python3-pip wget git
         sudo apt install -y libasio-dev libtinyxml2-dev
@@ -19,41 +20,3 @@ jobs:
         sudo apt install -y libengine-pkcs11-openssl
         p11-kit list-modules
         openssl engine pkcs11 -t
-        
-    - name: Build Foonathan Memory
-      run: |
-        git clone https://github.com/eProsima/foonathan_memory_vendor.git
-        cd foonathan_memory_vendor
-        echo 'set(CPACK_PACKAGE_NAME "foonathan_memory_vendor")' >> CMakeLists.txt
-        echo 'set(CPACK_PACKAGE_CONTACT "you@example.com")' >> CMakeLists.txt
-        echo 'include(CPack)' >> CMakeLists.txt
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-DDS -DBUILD_SHARED_LIBS=ON
-        cmake --build .
-        cpack -G DEB
-        
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: fast-dds
-        path: foonathan_memory_vendor/build/*.deb
-        
-    - name: Build Fast-CDR
-      run: |
-        git clone https://github.com/eProsima/Fast-CDR.git
-        cd Fast-CDR
-        echo 'set(CPACK_PACKAGE_NAME "foonathan_memory_vendor")' >> CMakeLists.txt
-        echo 'set(CPACK_PACKAGE_CONTACT "you@example.com")' >> CMakeLists.txt
-        echo 'include(CPack)' >> CMakeLists.txt
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/Fast-CDR
-        cmake --build .
-        cpack -G DEB
-
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: fast-cdr
-        path: Fast-CDR/build/*.deb
