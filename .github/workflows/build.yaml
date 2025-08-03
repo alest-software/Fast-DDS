@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Set-up dependancies
       run: |
-        echo "deb [trusted=yes] https://alest-software.github.io/simple/ ./" | sudo tee /etc/apt/sources.list.d/alest-software.list
+        echo "deb [trusted=yes] https://alest-software.github.io/ubuntu noble main" | sudo tee /etc/apt/sources.list.d/alest-software.list
         sudo apt update
         sudo apt install -y cmake g++ python3-pip wget git
         sudo apt install -y libasio-dev libtinyxml2-dev
@@ -18,5 +18,6 @@ jobs:
         sudo apt install -y libp11-dev
         sudo apt install -y softhsm2
         sudo apt install -y libengine-pkcs11-openssl
+        sudo apy install -y fast-cdr
         p11-kit list-modules
         openssl engine pkcs11 -t
