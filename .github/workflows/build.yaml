@@ -18,6 +18,6 @@ jobs:
         sudo apt install -y libp11-dev
         sudo apt install -y softhsm2
         sudo apt install -y libengine-pkcs11-openssl
-        sudo apy install -y fast-cdr
+        sudo apt install -y fast-cdr
         p11-kit list-modules
         openssl engine pkcs11 -t
