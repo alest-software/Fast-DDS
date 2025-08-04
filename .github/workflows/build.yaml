@@ -5,7 +5,13 @@ on:
 
 jobs:
   fastdds:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        platform: [ubuntu-24.04, ubuntu-22.04-arm] #, ubuntu-24.04-arm]
+
+    runs-on: ${{ matrix.platform }}
 
     steps:
     - name: Checkout
@@ -29,7 +35,7 @@ jobs:
         sudo apt install -y libfastcdr
         #p11-kit list-modules
         #openssl engine pkcs11 -t
-
+        
     - name: Build
       run: |
         mkdir build
@@ -39,3 +45,20 @@ jobs:
         cmake --build .
         cpack
 
+    - name: Deploy
+      run: |
+        codename=$(lsb_release -c -s)
+        git clone --depth 1 https://x-access-token:${{ secrets.TOKEN }}@github.com/alest-software/ubuntu.git
+        for fn in build/*.deb; do
+          arch=$(dpkg --info ${fn} | awk '/Architecture:/ {print $2}')
+          fname=$(basename ${fn})
+          dest="dists/$codename/main/binary-$arch"
+          mkdir -p "ubuntu/${dest}"
+          cp "${fn}" "ubuntu/${dest}/${fname}"
+          (cd ubuntu; git add "${dest}/${fname}")
+        done
+        cd ubuntu
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git commit -m 'Automatic deployment' || echo 'Nothing to commit'
+        git push
