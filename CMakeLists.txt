@@ -5,6 +5,7 @@ set(CMAKE_PREFIX_PATH "/opt/fastdds")
 set(CMAKE_INSTALL_PREFIX "/opt/fastdds")
 set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
+set(fastdds_INSTALL_CMAKEDIR "share/fastdds/cmake")
 add_subdirectory(Fast-DDS)
 
 include(InstallRequiredSystemLibraries)
