@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(fastdds VERSION 3.3.0)
+project(fastdds_wrapper VERSION 3.3.0)
 
 set(CMAKE_PREFIX_PATH "/opt/fastdds")
 set(CMAKE_INSTALL_PREFIX "/opt/fastdds")
