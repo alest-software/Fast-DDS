@@ -1,6 +1,7 @@
 name: Build FastDDS
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:

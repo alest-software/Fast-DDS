@@ -19,6 +19,8 @@ control_file = $(debian_dir)/control
 maintainer = you@example.com
 description = Fast-DDS
 
+CMAKE_PREFIX_PATH = /opt/foonathan
+
 all: clone build stage control package
 
 clone:
