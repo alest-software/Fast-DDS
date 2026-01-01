@@ -28,7 +28,7 @@ clone:
 
 build:
 	mkdir $(build_dir)
-	(cd $(build_dir); cmake $(source_dir) -DCMAKE_INSTALL_PREFIX=$(install_prefix))
+	(cd $(build_dir); cmake $(source_dir) -DCMAKE_INSTALL_PREFIX=$(install_prefix) -DCMAKE_PREFIX_PATH=/opt/foonathan)
 	(cd $(build_dir); cmake --build . -- install)
 
 stage:
