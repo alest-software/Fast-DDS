@@ -41,18 +41,12 @@ jobs:
     - name: Build
       run: |
         make -f actions.mk
-        #mkdir build
-        #cd build
-        #ARCH=$(dpkg --print-architecture)
-        #cmake -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=${ARCH} -DCPACK_DEBIAN_PACKAGE_REVISION=${GITHUB_RUN_NUMBER} ..
-        #cmake --build .
-        #cpack
 
     - name: Deploy
       run: |
         codename=$(lsb_release -c -s)
         git clone --depth 1 https://x-access-token:${{ secrets.TOKEN }}@github.com/alest-software/ubuntu.git
-        for fn in build/*.deb; do
+        for fn in *.deb; do
           arch=$(dpkg --info ${fn} | awk '/Architecture:/ {print $2}')
           fname=$(basename ${fn})
           dest="dists/$codename/main/binary-$arch"
