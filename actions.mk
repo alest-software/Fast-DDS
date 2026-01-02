@@ -19,7 +19,7 @@ control_file = $(debian_dir)/control
 maintainer = you@example.com
 description = Fast-DDS
 
-CMAKE_PREFIX_PATH = /opt/foonathan:/opt/fastcdr
+CMAKE_PREFIX_PATH = /opt/foonathan;/opt/fastcdr
 
 all: clone build stage control package
 
@@ -28,7 +28,7 @@ clone:
 
 build:
 	mkdir $(build_dir)
-	(cd $(build_dir); cmake $(source_dir) -DCMAKE_INSTALL_PREFIX=$(install_prefix) -DCMAKE_PREFIX_PATH=$(CMAKE_PREFIX_PATH))
+	(cd $(build_dir); cmake $(source_dir) -DCMAKE_INSTALL_PREFIX=$(install_prefix) -DCMAKE_PREFIX_PATH="$(CMAKE_PREFIX_PATH)")
 	(cd $(build_dir); cmake --build . -- install)
 
 stage:
